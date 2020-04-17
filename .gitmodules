@@ -1,0 +1,3 @@
+[submodule "components/lcd/Adafruit-GFX-Library"]
+	path = components/lcd/Adafruit-GFX-Library
+	url = https://github.com/adafruit/Adafruit-GFX-Library
