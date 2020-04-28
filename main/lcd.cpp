@@ -49,7 +49,7 @@ void app_lcd_init()
     //    tft->drawBitmap(243, 0, aws_logo, 77, 31);
     tft->setFont(&FreeSerifItalic24pt7b);
     tft->fillRect(0, 30, 230, 10, COLOR_ESP_BKGD);
-    tft->drawString("Out for Lunch", 5, 90);
+    tft->drawString("Initialising...", 5, 90);
     tft->setFont(&FreeSerifItalic9pt7b);
     tft->drawString("Powered by ESP RainMaker", 110, 230);
 }

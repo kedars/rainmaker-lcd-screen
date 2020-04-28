@@ -56,8 +56,8 @@ void app_main()
      * */
     esp_rmaker_config_t rainmaker_cfg = {
         .info = {
-            .name = "My_Switch",
-            .type = "Switch",
+            .name = "My_LCD",
+            .type = "LCD Screen",
         },
         .enable_time_sync = false,
     };
