@@ -13,5 +13,3 @@
 
 void app_lcd_init();
 esp_err_t app_lcd_write(char *string);
-void app_wifi_init(void);
-void app_wifi_start(void);
