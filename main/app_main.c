@@ -14,6 +14,7 @@
 #include <esp_rmaker_standard_types.h>
 #include <esp_rmaker_standard_params.h>
 #include <esp_rmaker_ota.h>
+#include <esp_rmaker_console.h>
 #include <string.h>
 
 #include <app_wifi.h>
@@ -22,11 +23,12 @@
 
 static const char *TAG = "app_main";
 
+#define LCD_DEVICE_PARAM_TITLE  "Title"
 /* Callback to handle commands received from the RainMaker cloud */
 static esp_err_t lcd_callback(const esp_rmaker_device_t *device, const esp_rmaker_param_t *param,
                               esp_rmaker_param_val_t val, void *priv_data, esp_rmaker_write_ctx_t *ctx)
 {
-    if (strcmp(esp_rmaker_param_get_name(param), "string") == 0) {
+    if (strcmp(esp_rmaker_param_get_name(param), LCD_DEVICE_PARAM_TITLE) == 0) {
         ESP_LOGI(TAG, "Received value = %s for - %s",
                 val.val.s, esp_rmaker_param_get_name(param));
         if (app_lcd_write(val.val.s) == ESP_OK) {
@@ -78,6 +80,9 @@ void app_main()
      */
     app_lcd_init();
 
+    /** Initialise some RainMaker commands for convenience */
+    esp_rmaker_console_init();
+
     /* Initialize NVS. */
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -110,8 +115,9 @@ void app_main()
         abort();
     }
     esp_rmaker_device_add_cb(lcd_device, lcd_callback, NULL);
+    esp_rmaker_device_add_param(lcd_device, esp_rmaker_name_param_create("Name", "LCD Name"));
     esp_rmaker_device_add_param(lcd_device,
-                                esp_rmaker_param_create("string", NULL, esp_rmaker_str("Hello, World"),
+                                esp_rmaker_param_create(LCD_DEVICE_PARAM_TITLE, NULL, esp_rmaker_str("Hello, World"),
                                                         PROP_FLAG_READ | PROP_FLAG_WRITE | PROP_FLAG_PERSIST));
 
     esp_rmaker_node_add_device(node, lcd_device);
